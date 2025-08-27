@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Speech Recognition</title>
+</head>
+<body>
+    <button id="start">Start</button>
+    <button id="end">Stop</button>
+    <div id="output"></div>
+    <script>
+        var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en';
+        document.getElementById('start').onclick = function() {
+            recognition.start();
+        };
+        recognition.onresult = function(event) {
+            document.getElementById('output').innerText = event.results[0][0].transcript;
+        };
+        document.getElementById('end').onclick = function() {
+            recognition.stop();
+        };
+    </script>
+</body>
+</html>
