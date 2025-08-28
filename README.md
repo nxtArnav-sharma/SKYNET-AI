@@ -71,7 +71,7 @@ CORE CAPABILITIES
 DEPLOYMENT PROTOCOL
 ---------------------------------------------------------------
 1. Secure repository clone:
-   git clone https://github.com/yourusername/SKYNET.git
+   git clone https://github.com/nxtArnav-sharma/SKYNET.git
 
 2. Enter secured directory:
    cd SKYNET
