@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-skynet-bg: #050505;
+  --color-skynet-red: #ff1a1a;
+  --color-skynet-glow: #ff4040;
+  --color-skynet-text: #ffe5e5;
+  --color-skynet-dark: #1a0000;
+}
+
+body {
+  background-color: var(--color-skynet-bg);
+  color: var(--color-skynet-text);
+  font-family: 'Courier New', Courier, monospace;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Scanline Overlay */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.2)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.6;
+}
+
+/* Subtle Grid Background */
+.grid-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: 
+    linear-gradient(rgba(255, 26, 26, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 26, 26, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.glow-text {
+  text-shadow: 0 0 5px var(--color-skynet-red), 0 0 10px var(--color-skynet-glow);
+}
+
+.glow-border {
+  box-shadow: 0 0 10px rgba(255, 26, 26, 0.5), inset 0 0 10px rgba(255, 26, 26, 0.2);
+  border: 1px solid var(--color-skynet-red);
+  background-color: rgba(26, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.scroll-hide::-webkit-scrollbar {
+  display: none;
+}

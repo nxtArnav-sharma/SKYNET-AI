@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+sounddevice
+numpy
+pyaudio
+faster-whisper
+edge-tts
+google-genai
+beautifulsoup4
+playwright
+httpx
+mcp
+python-dotenv
+pydantic
