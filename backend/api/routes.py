@@ -21,10 +21,22 @@ async def ask_agent(request: ChatRequest):
     response = await brain.generate_response(request.message)
     return {"response": response}
 
-async def generate_and_return_audio(text: str, headers: dict = None):
-    output_path = os.path.join(os.getcwd(), "api_response.mp3")
-    await tts_engine.generate_audio_file(text, output_path)
-    return FileResponse(path=output_path, media_type="audio/mpeg", filename="response.mp3", headers=headers or {})
+async def generate_and_return_audio(text: str, headers: dict = None, voice: str = "af_bella"):
+    # Detect if this is a news briefing for speed adjustment
+    speed = 0.95
+    if "global developments at this time" in text or "Headline" in text or "Update" in text:
+        speed = 1.0 # Faster for news
+        
+    # Generates audio, plays locally via sounddevice, and saves to WAV
+    output_path = await tts_engine.speak(text, voice=voice, speed=speed)
+    if os.path.exists(output_path):
+        return FileResponse(
+            path=output_path, 
+            media_type="audio/wav", 
+            filename="response.wav", 
+            headers=headers or {}
+        )
+    return {"status": "error", "message": "Failed to generate audio"}
 
 from fastapi import WebSocket, WebSocketDisconnect
 from backend.utils.ws_manager import ws_manager
@@ -89,9 +101,17 @@ async def system_status():
     return {
         "status": "online",
         "stt": "faster-whisper",
-        "tts": "edge-tts",
+        "tts": "kokoro",
         "mcp": "connected"
     }
+
+@router.post("/stop")
+async def stop_playback():
+    """Stop any current audio playback."""
+    from backend.tts.tts_engine import stop_audio
+    stop_audio()
+    await ws_manager.broadcast({"event": "stop_speaking"})
+    return {"status": "stopped"}
 
 @router.get("/tools")
 async def get_tools():

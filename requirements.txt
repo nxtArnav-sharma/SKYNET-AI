@@ -4,7 +4,7 @@ sounddevice
 numpy
 pyaudio
 faster-whisper
-edge-tts
+kokoro-onnx
 google-genai
 beautifulsoup4
 playwright

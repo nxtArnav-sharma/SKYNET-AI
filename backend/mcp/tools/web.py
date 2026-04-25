@@ -101,12 +101,17 @@ def register(mcp):
                     results.append(f"Summary: {data.get('AbstractText')}")
                     results.append(f"Link: {data.get('AbstractURL')}\n")
                 
-                for idx, rt in enumerate(data.get("RelatedTopics", [])[:3]):
+                for idx, rt in enumerate(data.get("RelatedTopics", [])[:5]):
                     if "Text" in rt and "FirstURL" in rt:
+                        url = rt.get("FirstURL", "")
+                        # Filter out Google News and generic aggregators as requested
+                        if any(x in url for x in ["news.google.com", "news.google"]):
+                            continue
+                            
                         results.append(f"Result {len(results)//4 + 1}")
                         results.append(f"Title: {rt.get('Text').split(' - ')[0] if ' - ' in rt.get('Text') else query}")
                         results.append(f"Summary: {rt.get('Text')}")
-                        results.append(f"Link: {rt.get('FirstURL')}\n")
+                        results.append(f"Link: {url}\n")
 
                 if len(results) == 1:
                     return "No results found."
